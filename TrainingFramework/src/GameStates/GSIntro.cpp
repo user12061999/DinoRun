@@ -25,7 +25,7 @@ void GSIntro::Init()
 	auto texture = ResourceManagers::GetInstance()->GetTexture("logo_2");
 
 	m_logo = std::make_shared<Sprite2D>(model, shader, texture);
-	m_logo->Set2DPosition(screenWidth / 2, screenHeight / 2);
+	m_logo->Set2DPosition((float)screenWidth / 2, (float)screenHeight / 2);
 	m_logo->SetSize(150, 160);
 }
 

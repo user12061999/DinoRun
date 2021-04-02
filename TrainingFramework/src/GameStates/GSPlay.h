@@ -32,11 +32,14 @@ public:
 	void SetNewPostionForBullet();
 
 private:
-
+	int score;
 	std::shared_ptr<Sprite2D> m_BackGround;
+	std::shared_ptr<Sprite2D> m_BackGround1;
 	std::shared_ptr<Text>  m_score;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::shared_ptr<SpriteAnimation2D> m_anim;
+	std::list<std::shared_ptr<Sprite2D>>	m_listrike;
+	float time = 3;
 	//khai bao Map
 };
 

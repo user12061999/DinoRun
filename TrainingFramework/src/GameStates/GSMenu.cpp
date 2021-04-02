@@ -32,7 +32,7 @@ void GSMenu::Init()
 	//logo
 	texture = ResourceManagers::GetInstance()->GetTexture("Button\\play");
 	m_Logo = std::make_shared<Sprite2D>(model, shader, texture);
-	m_Logo->Set2DPosition(oldXPos, oldYPos);
+	m_Logo->Set2DPosition(100, 100);
 	m_Logo->SetSize(300, 150);
 
 
