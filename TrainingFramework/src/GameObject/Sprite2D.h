@@ -28,6 +28,7 @@ public:
 
 	Vector2		Get2DPosition();
 	void		SetSize(GLint width, GLint height);
+	Vector2		Get2DSize();
 
 };
 

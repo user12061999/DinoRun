@@ -15,7 +15,8 @@ extern int screenHeight; //need get on Graphic engine
 
 GSPlay::GSPlay()
 {
-	int score = 0;
+	float test = 1;
+	txtscore = std::to_string(score);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -59,7 +60,7 @@ void GSPlay::Init()
 	
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
-	m_score = std::make_shared< Text>(shader, font, "score", TEXT_COLOR::RED, 1.0);
+	m_score = std::make_shared< Text>(shader, font,txtscore, TEXT_COLOR::RED, 1.0);
 	m_score->Set2DPosition(Vector2((float)screenWidth/2, 100));
 
 	
@@ -99,7 +100,10 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
-	
+	if (key = 'w' && inAir==false) {
+		yVelo = -200;
+		ResourceManagers::GetInstance()->PlaySound("jump.mp3");
+	}
 }
 
 void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
@@ -109,11 +113,26 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 		(it)->HandleTouchEvents(x, y, bIsPressed);
 		if ((it)->IsHandle()) break;
 	}
+
 }
 
 void GSPlay::Update(float deltaTime)
 {
+	m_anim->Set2DPosition(m_anim->Get2DPosition().x, m_anim->Get2DPosition().y + yVelo * deltaTime);
+	if (m_anim->Get2DPosition().y >= 500) {
+		yVelo = 0;
+	}
+	if (m_anim->Get2DPosition().y <= 400) {
+		yVelo = 200;
+	}
+	if (m_anim->Get2DPosition().y < 500) {
+		inAir = true;
+	}
+	else if (m_anim->Get2DPosition().y >= 500) {
+		inAir = false;
+	}
 	time -= deltaTime;
+	test -= deltaTime;
 	m_anim->Update(deltaTime);
 
 	//loop background
@@ -140,7 +159,7 @@ void GSPlay::Update(float deltaTime)
 		//BackGround
 		auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 		std::shared_ptr<Sprite2D> trike = std::make_shared<GameButton>(model, shader, texture);
-		trike->Set2DPosition(screenWidth, 500);
+		trike->Set2DPosition((float)screenWidth, 500);
 		trike->SetSize(70, 70);
 		m_listrike.push_back(trike);
 		time = 3;
@@ -148,17 +167,29 @@ void GSPlay::Update(float deltaTime)
 	//di chuyen trike
 	for (auto it : m_listrike)
 	{
-		it->Set2DPosition(it->Get2DPosition().x - 100 * deltaTime, 500);
-		if (m_anim->Get2DPosition().x - it->Get2DPosition().x==0) {
-			cout << "va cham voi trike";
+		it->Set2DPosition(it->Get2DPosition().x - 300 * deltaTime, 500);
+		if (it->Get2DPosition().x < 0) {
+			
 		}
-		else
-		{
-			cout << "khong ";
+		/*if (test <= 0) {
+			cout << m_anim->Get2DPosition().x - it->Get2DPosition().x << endl;
+			test = 1;
+		}*/
+	}
+	for (auto it : m_listrike) {
+		Vector2 a = Vector2(it->Get2DPosition().x - (float)it->Get2DSize().x / 2, it->Get2DPosition().y - (float)it->Get2DSize().y / 2);
+		Vector2 b = Vector2(m_anim->Get2DPosition().x + (float)m_anim->Get2DSize().x / 2, m_anim->Get2DPosition().y + (float)m_anim->Get2DSize().y / 2);
+		Vector2 c = Vector2(m_anim->Get2DPosition().x - (float)m_anim->Get2DSize().x / 2, m_anim->Get2DPosition().y - (float)m_anim->Get2DSize().y / 2);
+		if (a.x < b.x&&a.x>c.x && a.y < b.y) {
+			cout << "va cham";
+		}
+		if (a.x < c.x) {
+			score++;
+			txtscore = std::to_string(score);
+			cout << score;
 		}
 	}
-	
-	
+	m_score->Update(deltaTime);
 }
 
 void GSPlay::Draw()
