@@ -17,8 +17,6 @@ GSPlay::GSPlay()
 {
 	float test = 1;
 	txtscore = std::to_string(score);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
