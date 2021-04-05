@@ -21,7 +21,7 @@ void GSMenu::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_gameplay");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_menu");
 
 	//BackGround
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -29,17 +29,17 @@ void GSMenu::Init()
 	m_BackGround->Set2DPosition((float)screenWidth / 2, (float)screenHeight / 2);
 	m_BackGround->SetSize(screenWidth, screenHeight);
 	//logo
-	texture = ResourceManagers::GetInstance()->GetTexture("Button\\play");
+	/*texture = ResourceManagers::GetInstance()->GetTexture("Button\\play");
 	m_Logo = std::make_shared<Sprite2D>(model, shader, texture);
 	m_Logo->Set2DPosition(100, 100);
-	m_Logo->SetSize(300, 150);
+	m_Logo->SetSize(300, 150);*/
 
 
 	//play button
 	texture = ResourceManagers::GetInstance()->GetTexture("Button\\play");
 	std::shared_ptr<GameButton> buttonPlay = std::make_shared<GameButton>(model, shader, texture);
-	buttonPlay->Set2DPosition((float)screenWidth / 2, 300);
-	buttonPlay->SetSize(100, 50);
+	buttonPlay->Set2DPosition((float)screenWidth / 2, 400);
+	buttonPlay->SetSize(50, 50);
 	buttonPlay->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
 		});
@@ -51,8 +51,8 @@ void GSMenu::Init()
 
 	texture = ResourceManagers::GetInstance()->GetTexture("Button\\credit");
 	std::shared_ptr<GameButton> buttonCredit = std::make_shared<GameButton>(model, shader, texture);
-	buttonCredit->Set2DPosition((float)screenWidth / 2, 360);
-	buttonCredit->SetSize(100, 50);
+	buttonCredit->Set2DPosition((float)screenWidth / 2, 460);
+	buttonCredit->SetSize(50, 50);
 	buttonCredit->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Credit);
 		});
@@ -63,8 +63,8 @@ void GSMenu::Init()
 	texture = ResourceManagers::GetInstance()->GetTexture("Button\\setting");
 	std::shared_ptr<GameButton> buttonsetting = std::make_shared<GameButton>(model, shader, texture);
 	buttonsetting = std::make_shared<GameButton>(model, shader, texture);
-	buttonsetting->Set2DPosition((float)screenWidth / 2, 420);
-	buttonsetting->SetSize(100, 50);
+	buttonsetting->Set2DPosition((float)screenWidth / 2, 520);
+	buttonsetting->SetSize(50, 50);
 	buttonsetting->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Setting);
 		});
@@ -73,8 +73,8 @@ void GSMenu::Init()
 	//quit button
 	texture = ResourceManagers::GetInstance()->GetTexture("Button\\quit");
 	std::shared_ptr<GameButton> buttonquit = std::make_shared<GameButton>(model, shader, texture);
-	buttonquit->Set2DPosition((float)screenWidth / 2, 480);
-	buttonquit->SetSize(100, 50);
+	buttonquit->Set2DPosition((float)screenWidth / 2, 580);
+	buttonquit->SetSize(50, 50);
 	buttonquit->SetOnClick([]() {
 		exit(0);
 		});
@@ -133,13 +133,13 @@ void GSMenu::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
-	m_Logo->Update(deltaTime);
+	//m_Logo->Update(deltaTime);
 }
 
 void GSMenu::Draw()
 {
 	m_BackGround->Draw();
-	m_Logo->Draw();
+	//m_Logo->Draw();
 	for (auto it : m_listButton)
 	{
 		it->Draw();

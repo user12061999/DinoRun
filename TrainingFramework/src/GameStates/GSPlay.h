@@ -41,8 +41,10 @@ private:
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::shared_ptr<SpriteAnimation2D> m_anim;
 	std::shared_ptr<SpriteAnimation2D> pte_anim;
-	std::list<std::shared_ptr<Sprite2D>>	m_listrike;
+	std::list<std::shared_ptr<SpriteAnimation2D>>	m_listpte;
+	std::list<std::shared_ptr<SpriteAnimation2D>>	m_listrike;
 	float time = 3;
+	float time_spawn_pte = 1;
 	float test = 1;
 	float yVelo = 0;
 	//khai bao Map

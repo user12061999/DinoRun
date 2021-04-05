@@ -24,11 +24,19 @@ void GSIntro::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	auto texture = ResourceManagers::GetInstance()->GetTexture2("logo_4");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("logo");
 
 	m_logo = std::make_shared<Sprite2D>(model, shader, texture);
 	m_logo->Set2DPosition((float)screenWidth / 2, (float)screenHeight / 2);
 	m_logo->SetSize(150, 160);
+	ResourceManagers::GetInstance()->PlaySound("main_theme.mp3");
+
+	//dino
+	shader = ResourceManagers::GetInstance()->GetShader("Animation");
+	texture = ResourceManagers::GetInstance()->GetTexture("Trex\\Trex");
+	m_anim = std::make_shared<SpriteAnimation2D>(model, shader, texture, 3, 0.2f);
+	m_anim->Set2DPosition(80, 500);
+	m_anim->SetSize(70, 70);
 }
 
 void GSIntro::Exit()
@@ -65,15 +73,20 @@ void GSIntro::HandleTouchEvents(int x, int y, bool bIsPressed)
 
 void GSIntro::Update(float deltaTime)
 {
+	m_logo->Update(deltaTime);
+	m_anim->Set2DPosition(m_anim->Get2DPosition().x - 400 * deltaTime, 500);
+	m_anim->Update(deltaTime);
 	m_time += deltaTime;
-	if (m_time > 1.3)
+	if (m_time > 5)
 	{
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Menu);
 		m_time = 0;
 	}
+	
 }
 
 void GSIntro::Draw()
 {
 	m_logo->Draw();
+	m_anim->Draw();
 }

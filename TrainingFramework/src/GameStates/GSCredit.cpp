@@ -27,10 +27,10 @@ void GSCredit::Init()
 	m_BackGround->SetSize(screenWidth, screenHeight);
 
 	//back button
-	texture = ResourceManagers::GetInstance()->GetTexture("Button\\back");
+	texture = ResourceManagers::GetInstance()->GetTexture("Button\\quit");
 	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(100, 50);
-	button->SetSize(100, 50);
+	button->Set2DPosition(50, 50);
+	button->SetSize(100, 100);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->PopState();
 		});
@@ -42,8 +42,7 @@ void GSCredit::Init()
 	text = std::make_shared< Text>(shader, font, "day la credit", TEXT_COLOR::RED, 1.0);
 	text->Set2DPosition(Vector2(150, 100));
 
-	//
-
+	
 }
 
 void GSCredit::Exit()
@@ -90,6 +89,7 @@ void GSCredit::Update(float deltaTime)
 		it->Update(deltaTime);
 	}
 	text->Update(deltaTime);
+	
 }
 
 void GSCredit::Draw()
@@ -100,5 +100,6 @@ void GSCredit::Draw()
 		it->Draw();
 	}
 	text->Draw();
+
 }
 

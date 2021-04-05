@@ -44,10 +44,10 @@ void GSPlay::Init()
 	m_BackGround1->Set2DPosition((float)screenWidth / 2 + (float)screenWidth, (float)screenHeight / 2);
 	m_BackGround1->SetSize(screenWidth, screenHeight);
 
-	texture = ResourceManagers::GetInstance()->GetTexture("Menu\\back_play");
+	texture = ResourceManagers::GetInstance()->GetTexture("Button\\Quit");
 	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(20, 20);
-	button->SetSize(40, 40);
+	button->Set2DPosition(25, 25);
+	button->SetSize(50, 50);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->PopState();
 		});
@@ -61,17 +61,14 @@ void GSPlay::Init()
 	m_score = std::make_shared< Text>(shader, font,txtscore, TEXT_COLOR::RED, 1.0);
 	m_score->Set2DPosition(Vector2((float)screenWidth/2, 100));
 
-	
+	//din
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	texture = ResourceManagers::GetInstance()->GetTexture("dino_run");
+	texture = ResourceManagers::GetInstance()->GetTexture("Trex\\Trex");
 	m_anim = std::make_shared<SpriteAnimation2D>(model, shader, texture, 3, 0.2f);
 	m_anim->Set2DPosition(80,500);
 	m_anim->SetSize(70, 70);
 
-	texture = ResourceManagers::GetInstance()->GetTexture("poo_down");
-	pte_anim = std::make_shared<SpriteAnimation2D>(model, shader, texture, 3, 0.2f);
-	pte_anim->Set2DPosition(400, 500);
-	pte_anim->SetSize(70, 70);
+	
 	//m_dino = std::make_shared<Player>(model, shader, texture, 2, 0.5f);
 
 	//ResourceManagers::GetInstance()->PlaySound("dino_sound.mp3");
@@ -105,7 +102,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	if (key = 'w' && inAir==false) {
 		yVelo = -200;
 		ResourceManagers::GetInstance()->PlaySound("jump.mp3");
-		m_anim->SetTexture(ResourceManagers::GetInstance()->GetTexture("trike"));
+		m_anim->SetTexture(ResourceManagers::GetInstance()->GetTexture("Trex\\Trex_jump"));
 	}
 }
 
@@ -133,12 +130,11 @@ void GSPlay::Update(float deltaTime)
 	}
 	else if (m_anim->Get2DPosition().y >= 500) {
 		inAir = false;
-		m_anim->SetTexture(ResourceManagers::GetInstance()->GetTexture("dino_run"));
+		m_anim->SetTexture(ResourceManagers::GetInstance()->GetTexture("Trex\\Trex"));
 	}
 	time -= deltaTime;
 	test -= deltaTime;
-	
-
+	time_spawn_pte -= deltaTime;
 	//loop background
 	if (m_BackGround->Get2DPosition().x <= -screenWidth / 2) {
 		m_BackGround->Set2DPosition((float)screenWidth / 2 + (float)screenWidth, (float)screenHeight / 2);
@@ -158,15 +154,31 @@ void GSPlay::Update(float deltaTime)
 	//spawn trike
 	if (time <= 0) {
 		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-		auto texture = ResourceManagers::GetInstance()->GetTexture("trike");
+		auto texture = ResourceManagers::GetInstance()->GetTexture("Trex\\trike");
 
 		//BackGround
-		auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-		std::shared_ptr<Sprite2D> trike = std::make_shared<GameButton>(model, shader, texture);
+		auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
+		std::shared_ptr<SpriteAnimation2D> trike = std::make_shared<SpriteAnimation2D>(model, shader, texture, 3, 0.2f);
 		trike->Set2DPosition((float)screenWidth, 500);
 		trike->SetSize(70, 70);
 		m_listrike.push_back(trike);
-		time = 3;
+		time = (float)(rand() % (7 - 3 + 1) + 3);
+	}
+
+	//spawn pte
+	float size_pte =(float) (rand() % (70 - 35 + 1) + 35);
+	if (time_spawn_pte<=0) {
+		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+		auto texture = ResourceManagers::GetInstance()->GetTexture("Trex\\Pte");
+
+		//BackGround
+		auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
+		std::shared_ptr<SpriteAnimation2D> pte = std::make_shared<SpriteAnimation2D>(model, shader, texture, 3, 0.2f);
+		pte->Set2DPosition((float)screenWidth, (float)(rand() % (300 - 35 + 1) + 35));
+		pte->SetSize((int)size_pte, (int)size_pte);
+		m_listpte.push_back(pte);
+		time_spawn_pte = (float)(rand() % (7 - 1 + 1) + 1);
+		ResourceManagers::GetInstance()->PlaySound("pte_sound.mp3");
 	}
 	//di chuyen trike
 	for (auto it : m_listrike)
@@ -180,6 +192,15 @@ void GSPlay::Update(float deltaTime)
 			test = 1;
 		}*/
 	}
+	//di chuyen pte
+	for (auto it : m_listpte)
+	{
+		it->Set2DPosition(it->Get2DPosition().x - (rand() % (1000 + 200 + 1) + -200) * deltaTime, it->Get2DPosition().y);
+		if (it->Get2DPosition().x < 0) {
+
+		}
+		it->Update(deltaTime);
+	}
 	for (auto it : m_listrike) {
 		Vector2 a = Vector2(it->Get2DPosition().x - (float)it->Get2DSize().x / 2, it->Get2DPosition().y - (float)it->Get2DSize().y / 2);
 		Vector2 b = Vector2(m_anim->Get2DPosition().x + (float)m_anim->Get2DSize().x / 2, m_anim->Get2DPosition().y + (float)m_anim->Get2DSize().y / 2);
@@ -188,14 +209,13 @@ void GSPlay::Update(float deltaTime)
 			cout << "va cham";
 		}
 		if (a.x < c.x) {
-			score++;
-			txtscore = std::to_string(score);
-			cout << score;
+
 		}
 	}
 	m_score->Update(deltaTime);
 	m_anim->Update(deltaTime);
-	pte_anim->Update(deltaTime);
+	
+	//pte_anim->Update(deltaTime);
 }
 
 void GSPlay::Draw()
@@ -213,6 +233,10 @@ void GSPlay::Draw()
 	{
 		it->Draw();
 	}
+	for (auto it : m_listpte)
+	{
+		it->Draw();
+	}
 	m_anim->Draw();
-	pte_anim->Draw();
+	//pte_anim->Draw();
 }

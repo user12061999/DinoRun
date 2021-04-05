@@ -27,10 +27,10 @@ void GSSetting::Init()
 	m_BackGround->SetSize(screenWidth, screenHeight);
 
 	//back button
-	texture = ResourceManagers::GetInstance()->GetTexture("Button\\back");
+	texture = ResourceManagers::GetInstance()->GetTexture("Button\\quit");
 	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(50, 25);
-	button->SetSize(100, 50);
+	button->Set2DPosition(50, 50);
+	button->SetSize(100, 100);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->PopState();
 		});
@@ -40,8 +40,8 @@ void GSSetting::Init()
 	//sound button
 	texture = ResourceManagers::GetInstance()->GetTexture("sound_off");
 	std::shared_ptr<GameButton> buttonPlay = std::make_shared<GameButton>(model, shader, texture);
-	buttonPlay->Set2DPosition(350, 290);
-	buttonPlay->SetSize(60, 60);
+	buttonPlay->Set2DPosition(350, 190);
+	buttonPlay->SetSize(150, 150);
 	m_listButton.push_back(buttonPlay);
 
 

@@ -23,5 +23,6 @@ public:
 private:
 	std::shared_ptr<Sprite2D> m_logo;
 	float m_time;
+	std::shared_ptr<SpriteAnimation2D> m_anim;
 };
 
