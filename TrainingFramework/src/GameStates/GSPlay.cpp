@@ -16,7 +16,6 @@ extern int screenHeight; //need get on Graphic engine
 GSPlay::GSPlay()
 {
 	float test = 1;
-	txtscore = std::to_string(score);
 }
 
 
@@ -58,7 +57,7 @@ void GSPlay::Init()
 	
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
-	m_score = std::make_shared< Text>(shader, font,txtscore, TEXT_COLOR::RED, 1.0);
+	m_score = std::make_shared< Text>(shader, font, std::to_string(score), TEXT_COLOR::RED, 1.0);
 	m_score->Set2DPosition(Vector2((float)screenWidth/2, 100));
 
 	//din
@@ -135,6 +134,7 @@ void GSPlay::Update(float deltaTime)
 	time -= deltaTime;
 	test -= deltaTime;
 	time_spawn_pte -= deltaTime;
+	score =score+deltaTime;
 	//loop background
 	if (m_BackGround->Get2DPosition().x <= -screenWidth / 2) {
 		m_BackGround->Set2DPosition((float)screenWidth / 2 + (float)screenWidth, (float)screenHeight / 2);
@@ -187,10 +187,7 @@ void GSPlay::Update(float deltaTime)
 		if (it->Get2DPosition().x < 0) {
 			
 		}
-		/*if (test <= 0) {
-			cout << m_anim->Get2DPosition().x - it->Get2DPosition().x << endl;
-			test = 1;
-		}*/
+		it->Update(deltaTime);
 	}
 	//di chuyen pte
 	for (auto it : m_listpte)
@@ -206,7 +203,7 @@ void GSPlay::Update(float deltaTime)
 		Vector2 b = Vector2(m_anim->Get2DPosition().x + (float)m_anim->Get2DSize().x / 2, m_anim->Get2DPosition().y + (float)m_anim->Get2DSize().y / 2);
 		Vector2 c = Vector2(m_anim->Get2DPosition().x - (float)m_anim->Get2DSize().x / 2, m_anim->Get2DPosition().y - (float)m_anim->Get2DSize().y / 2);
 		if (a.x < b.x&&a.x>c.x && a.y < b.y) {
-			cout << "va cham";
+			GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Over);
 		}
 		if (a.x < c.x) {
 

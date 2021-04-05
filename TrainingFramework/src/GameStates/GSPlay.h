@@ -33,7 +33,7 @@ public:
 
 private:
 	bool inAir=false;
-	int score=0;
+	float score=0;
 	std::string txtscore;
 	std::shared_ptr<Sprite2D> m_BackGround;
 	std::shared_ptr<Sprite2D> m_BackGround1;
