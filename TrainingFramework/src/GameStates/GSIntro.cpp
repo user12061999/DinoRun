@@ -24,7 +24,7 @@ void GSIntro::Init()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("logo_3");
+	auto texture = ResourceManagers::GetInstance()->GetTexture2("logo_4");
 
 	m_logo = std::make_shared<Sprite2D>(model, shader, texture);
 	m_logo->Set2DPosition((float)screenWidth / 2, (float)screenHeight / 2);

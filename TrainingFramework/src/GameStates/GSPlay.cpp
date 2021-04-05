@@ -68,6 +68,10 @@ void GSPlay::Init()
 	m_anim->Set2DPosition(80,500);
 	m_anim->SetSize(70, 70);
 
+	texture = ResourceManagers::GetInstance()->GetTexture("poo_down");
+	pte_anim = std::make_shared<SpriteAnimation2D>(model, shader, texture, 3, 0.2f);
+	pte_anim->Set2DPosition(400, 500);
+	pte_anim->SetSize(70, 70);
 	//m_dino = std::make_shared<Player>(model, shader, texture, 2, 0.5f);
 
 	//ResourceManagers::GetInstance()->PlaySound("dino_sound.mp3");
@@ -101,6 +105,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	if (key = 'w' && inAir==false) {
 		yVelo = -200;
 		ResourceManagers::GetInstance()->PlaySound("jump.mp3");
+		m_anim->SetTexture(ResourceManagers::GetInstance()->GetTexture("trike"));
 	}
 }
 
@@ -128,10 +133,11 @@ void GSPlay::Update(float deltaTime)
 	}
 	else if (m_anim->Get2DPosition().y >= 500) {
 		inAir = false;
+		m_anim->SetTexture(ResourceManagers::GetInstance()->GetTexture("dino_run"));
 	}
 	time -= deltaTime;
 	test -= deltaTime;
-	m_anim->Update(deltaTime);
+	
 
 	//loop background
 	if (m_BackGround->Get2DPosition().x <= -screenWidth / 2) {
@@ -188,10 +194,13 @@ void GSPlay::Update(float deltaTime)
 		}
 	}
 	m_score->Update(deltaTime);
+	m_anim->Update(deltaTime);
+	pte_anim->Update(deltaTime);
 }
 
 void GSPlay::Draw()
 {
+	
 	m_BackGround->Draw();
 	m_BackGround1->Draw();
 	m_score->Draw();
@@ -205,8 +214,5 @@ void GSPlay::Draw()
 		it->Draw();
 	}
 	m_anim->Draw();
-}
-
-void GSPlay::SetNewPostionForBullet()
-{
+	pte_anim->Draw();
 }

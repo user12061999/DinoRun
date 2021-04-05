@@ -135,6 +135,19 @@ std::shared_ptr<Texture> ResourceManagers::GetTexture(const std::string& name)
 	m_MapTexture.insert(std::pair<std::string, std::shared_ptr<Texture>>(name, texture));
 	return texture;
 }
+std::shared_ptr<Texture> ResourceManagers::GetTexture2(const std::string& name)
+{
+	auto it = m_MapTexture.find(name);
+	if (it != m_MapTexture.end())
+	{
+		return it->second;
+	}
+	std::shared_ptr<Texture> texture = std::make_shared<Texture>();
+	std::string file = m_TexturePath + name + ".png";
+	texture->Init(file.c_str(), GL_CLAMP_TO_EDGE, GL_LINEAR_MIPMAP_LINEAR);
+	m_MapTexture.insert(std::pair<std::string, std::shared_ptr<Texture>>(name, texture));
+	return texture;
+}
 
 std::shared_ptr<Models> ResourceManagers::GetModel(const std::string& name)
 {
