@@ -48,7 +48,7 @@ void GSPlay::Init()
 	button->Set2DPosition(25, 25);
 	button->SetSize(50, 50);
 	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->PopState();
+		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Menu);
 		});
 	m_listButton.push_back(button);
 
@@ -58,7 +58,7 @@ void GSPlay::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
 	m_score = std::make_shared< Text>(shader, font, std::to_string(score), TEXT_COLOR::RED, 1.0);
-	m_score->Set2DPosition(Vector2((float)screenWidth/2, 100));
+	m_score->Set2DPosition(Vector2((float)screenWidth-100, 50));
 
 	//din
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
@@ -98,10 +98,12 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
-	if (key = 'w' && inAir==false) {
-		yVelo = -200;
-		ResourceManagers::GetInstance()->PlaySound("jump.mp3");
-		m_anim->SetTexture(ResourceManagers::GetInstance()->GetTexture("Trex\\Trex_jump"));
+	if (bIsPressed) {
+		if (key == KEY_MOVE_FORWORD && inAir == false) {
+			yVelo = -200;
+			ResourceManagers::GetInstance()->PlaySound("jump.mp3");
+			m_anim->SetTexture(ResourceManagers::GetInstance()->GetTexture("Trex\\Trex_jump"));
+		}
 	}
 }
 
@@ -209,7 +211,7 @@ void GSPlay::Update(float deltaTime)
 
 		}
 	}
-	m_score->Update(deltaTime);
+	m_score->setText(std::to_string(score));
 	m_anim->Update(deltaTime);
 	
 	//pte_anim->Update(deltaTime);
