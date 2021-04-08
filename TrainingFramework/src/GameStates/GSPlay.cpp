@@ -185,7 +185,7 @@ void GSPlay::Update(float deltaTime)
 	//di chuyen trike
 	for (auto it : m_listrike)
 	{
-		it->Set2DPosition(it->Get2DPosition().x - (rand() % (2000 + 200 + 1) + -200) * deltaTime, 500);
+		it->Set2DPosition(it->Get2DPosition().x - 400 * deltaTime, 500);
 		if (it->Get2DPosition().x < 0) {
 			
 		}
