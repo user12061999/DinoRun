@@ -63,9 +63,6 @@
     <ClCompile Include="src\GameStates\GSPlay.cpp">
       <Filter>TrainingFramework\src\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameManager\ResourceManagers.cpp">
-      <Filter>TrainingFramework\src\GameManager</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameObject\GameButton.cpp">
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
@@ -80,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="src\GameStates\GSOver.cpp">
       <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameManager\ResourceManagers.cpp">
+      <Filter>TrainingFramework\src\GameManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

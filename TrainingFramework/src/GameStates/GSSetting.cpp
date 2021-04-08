@@ -39,19 +39,25 @@ void GSSetting::Init()
 
 	//sound button
 	texture = ResourceManagers::GetInstance()->GetTexture("sound_off");
-	std::shared_ptr<GameButton> buttonPlay = std::make_shared<GameButton>(model, shader, texture);
-	buttonPlay->Set2DPosition(350, 190);
-	buttonPlay->SetSize(150, 150);
-	m_listButton.push_back(buttonPlay);
+	std::shared_ptr<GameButton> buttonmusic_off = std::make_shared<GameButton>(model, shader, texture);
+	buttonmusic_off->Set2DPosition(350, 190);
+	buttonmusic_off->SetSize(100, 100);
+	buttonmusic_off->SetOnClick([]() {
+		
+		});
+	m_listButton.push_back(buttonmusic_off);
 
 
 	//music button
 	texture = ResourceManagers::GetInstance()->GetTexture("sound_on");
-	std::shared_ptr<GameButton> buttonmusic = std::make_shared<GameButton>(model, shader, texture);
-	buttonmusic = std::make_shared<GameButton>(model, shader, texture);
-	buttonmusic->Set2DPosition(350, 370);
-	buttonmusic->SetSize(60, 60);
-	m_listButton.push_back(buttonmusic);
+	std::shared_ptr<GameButton> buttonmusic_on = std::make_shared<GameButton>(model, shader, texture);
+	buttonmusic_on = std::make_shared<GameButton>(model, shader, texture);
+	buttonmusic_on->Set2DPosition(350, 370);
+	buttonmusic_on->SetSize(100, 100);
+	buttonmusic_on->SetOnClick([]() {
+		
+		});
+	m_listButton.push_back(buttonmusic_on);
 
 }
 

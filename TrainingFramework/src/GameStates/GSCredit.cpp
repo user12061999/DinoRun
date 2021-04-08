@@ -39,7 +39,7 @@ void GSCredit::Init()
 	//Text
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
-	text = std::make_shared< Text>(shader, font, "day la credit", TEXT_COLOR::RED, 1.0);
+	text = std::make_shared< Text>(shader, font, "Game made by Toi", TEXT_COLOR::RED, 1.0);
 	text->Set2DPosition(Vector2(150, 100));
 
 	

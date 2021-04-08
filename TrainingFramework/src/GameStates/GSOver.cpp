@@ -49,7 +49,7 @@ void GSOver::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
 	m_text = std::make_shared< Text>(shader, font, "Game Over", TEXT_COLOR::RED, 3.0);
-	m_text->Set2DPosition(Vector2((float)screenWidth / 2, 100));
+	m_text->Set2DPosition(Vector2((float)screenWidth / 2-200, 100));
 
 }
 
